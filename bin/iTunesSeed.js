@@ -123,7 +123,7 @@ function importLibrary(iTunesXml) {
           albumId: Album({
             name: data.Album,
             artistId: Artist({name: data['Album Artist'] || data.Artist || 'Unknown artist'})
-          }),
+          })
         })
       })
 
@@ -147,7 +147,7 @@ const [Artist, Album, Song, ArtistSong] = ['artists', 'albums', 'songs', 'artist
           // and resolves with the integer id value.
           function findOrCreate(columnValues) {
              const key = keyFor(columnValues)
-             if (findOrCreate[key]) {
+             if ( findOrCreate[key] ) {
                log.debug `cache hit for ${key}, with inner key ${findOrCreate[key][KEY]}`
                return findOrCreate[key]
              }

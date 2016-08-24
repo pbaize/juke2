@@ -3,12 +3,17 @@
 
 juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, AlbumFactory, PlayerFactory) {
   // load our initial data
-  AlbumFactory.fetchById(57)
-    .then(function (album) {
-      $scope.album = album
-    })
-    .catch($log.error) // $log service can be turned on and off; also, pre-bound
-
+  $scope.show = false
+  $scope.$on('showAlbums', function () { $scope.show = false})
+  $scope.$on('selectAlbum', function (event, id) {
+    console.log(id)
+    AlbumFactory.fetchById(id)
+      .then(function (album) {
+        $scope.album = album
+        $scope.show = true
+      })
+      .catch($log.error) // $log service can be turned on and off; also, pre-bound
+  })
   $scope.isActive = song => song === PlayerFactory.getCurrentSong()
   $scope.isPlaying = song => PlayerFactory.isPlaying() && $scope.isActive(song)
   // main toggle
@@ -35,10 +40,19 @@ juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, AlbumFactory, P
 // function prev () { skip(-1) }
 })
 
-juke.controller('AlbumsCtrl', function ($scope, AlbumFactory, $log) {
-  AlbumFactory.fetchAll()
-    .then(function (albums) {
-      $scope.albums = albums
-    })
-    .catch($log.error)
+juke.controller('AlbumsCtrl', function ($scope, $rootScope, AlbumFactory, $log) {
+  $scope.show = false
+  $scope.$on('showAlbums', function () {
+    AlbumFactory.fetchAll()
+      .then(function (albums) {
+        $scope.albums = albums
+        $scope.show = true
+        console.log($scope.albums)
+      })
+      .catch($log.error)
+  })
+  $scope.selectAlbum = function (id) {
+    $rootScope.$broadcast('selectAlbum', id)
+    $scope.show = false
+  }
 })

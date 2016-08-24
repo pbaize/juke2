@@ -2,17 +2,16 @@
 'use strict'
 
 juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
+  PlayerFactory.audio.addEventListener('timeupdate', function () {
+    $scope.progress = PlayerFactory.getProgress() * 100
+    $scope.$evalAsync()
+  })
 
-  PlayerFactory.audio.addEventListener('timeupdate', function(){
-    $scope.progress = PlayerFactory.getProgress() * 100;
-    $scope.$evalAsync();
-  });
-
-  $scope.loaded = function() {
+  $scope.loaded = function () {
     return Boolean(PlayerFactory.getCurrentSong())
   }
 
-  $scope.playing = PlayerFactory.isPlaying;
+  $scope.playing = PlayerFactory.isPlaying
 
   // main toggle
   $scope.toggle = function () {
@@ -20,13 +19,12 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
     else PlayerFactory.resume()
   }
 
-  // outgoing events (to Album… or potentially other characters)
-  $scope.next = function() {
-    PlayerFactory.next();
+  $scope.next = function () {
+    PlayerFactory.next()
   }
 
-  $scope.prev = function() {
-    PlayerFactory.previous();
+  $scope.prev = function () {
+    PlayerFactory.previous()
   }
 
   $scope.handleProgressClick = function (evt) {

@@ -35,7 +35,10 @@ juke.factory('AlbumFactory', function ($http, $log, StatsFactory) {
   function fetchAll () {
     return $http.get('/api/albums/')
       .then(res => res.data)
-      .then(albums => albums.forEach(StatsFactory.setImageUrl))
+      .then(albums => {
+        albums.forEach(StatsFactory.setImageUrl)
+        return albums
+      })
       .catch($log.error)
   }
   function fetchById (id) {
