@@ -16,7 +16,7 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   //   $scope.$evalAsync() // likely best, schedules digest if none happening
   // })
 
-  var audio = PlayerFactory.audio;
+  var audio = PlayerFactory.audio
 
   // state
   $scope.currentSong

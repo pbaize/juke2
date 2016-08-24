@@ -25,7 +25,7 @@
         </sidebar>
       </div>
       <div class="col-xs-10">
-        <div class="album" ng-show="false" ng-controller="AlbumCtrl">
+        <div class="album" ng-show="true" ng-controller="AlbumCtrl">
           <p>
             <h3>{{ album.name }} <span style="font-size: 18px">| {{album.totalTime}}</span></h4>
             <img ng-src="{{ album.imageUrl }}" class="img-thumbnail">
@@ -40,10 +40,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="song in album.songs" ng-class="{active: song === currentSong}">
+              <tr ng-repeat="song in album.songs" ng-class="{active: isActive(song)}">
                 <td>
                   <button class="btn btn-default btn-xs" ng-click="toggle(song)">
-                  <span class="glyphicon" ng-class="{'glyphicon-pause': playing && song === currentSong, 'glyphicon-play': song !== currentSong || !playing}"></span>
+                  <span class="glyphicon" ng-class="{'glyphicon-pause': isPlaying(song), 'glyphicon-play': !isPlaying(song)}"></span>
                   </button>
                 </td>
                 <td>{{ song.name }}</td>
@@ -53,7 +53,7 @@
             </tbody>
           </table>
         </div>
-        <div ng-show="true" ng-controller="AlbumsCtrl">
+        <!-- <div ng-show="false" ng-controller="AlbumsCtrl">
           <h3>Albums</h3>
           <div class="row">
             <div ng-repeat="album in albums" class="col-xs-4">
@@ -67,11 +67,11 @@
                 </div>
               </a>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <footer>
-        <div ng-show="currentSong" ng-controller="PlayerCtrl">
+        <div ng-show="false" ng-controller="PlayerCtrl">
           <div class="pull-left">
             <button class="btn btn-default" ng-click="prev()">
             <span class="glyphicon glyphicon-step-backward"></span>
