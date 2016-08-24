@@ -8,12 +8,12 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope) {
   audio.addEventListener('ended', function () {
     $scope.next()
     // $scope.$apply(); // triggers $rootScope.$digest, which hits other scopes
-    $scope.$evalAsync(); // likely best, schedules digest if none happening
+    $scope.$evalAsync() // likely best, schedules digest if none happening
   })
   audio.addEventListener('timeupdate', function () {
     $scope.progress = 100 * audio.currentTime / audio.duration
     // $scope.$digest(); // re-computes current template only (this scope)
-    $scope.$evalAsync(); // likely best, schedules digest if none happening
+    $scope.$evalAsync() // likely best, schedules digest if none happening
   })
 
   // state

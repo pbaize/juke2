@@ -1,15 +1,14 @@
 /* global juke */
 'use strict'
 
-juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log) {
-
+juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFactory) {
   // load our initial data
   $http.get('/api/albums/')
-    .then(function (res) { return res.data; })
+    .then(function (res) { return res.data })
     .then(function (albums) {
-      return $http.get('/api/albums/' + albums[7].id); // temp: get one
+      return $http.get('/api/albums/' + albums[7].id) // temp: get one
     })
-    .then(function (res) { return res.data; })
+    .then(function (res) { return res.data })
     .then(function (album) {
       album.imageUrl = '/api/albums/' + album.id + '/image'
       album.songs.forEach(function (song, i) {
@@ -17,8 +16,14 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log) {
         song.albumIndex = i
       })
       $scope.album = album
+      return album
     })
-    .catch($log.error); // $log service can be turned on and off; also, pre-bound
+    .then(StatsFactory.totalTime)
+    .then(time => {
+      $scope.album.fullDuration = time
+      $scope.album.totalTime = '' + Math.floor(time / 60) + ':' + Math.floor(time % 60)
+    })
+    .catch($log.error) // $log service can be turned on and off; also, pre-bound
 
   // main toggle
   $scope.toggle = function (song) {
@@ -45,7 +50,7 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log) {
   }
 
   // a "true" modulo that wraps negative to the top of the range
-  function mod (num, m) { return ((num % m) + m) % m; }
+  function mod (num, m) { return ((num % m) + m) % m }
 
   // jump `interval` spots in album (negative to go back, default +1)
   function skip (interval) {
@@ -55,6 +60,6 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log) {
     $scope.currentSong = $scope.album.songs[index]
     if ($scope.playing) $rootScope.$broadcast('play', $scope.currentSong)
   }
-  function next () { skip(1); }
-  function prev () { skip(-1); }
+  function next () { skip(1) }
+  function prev () { skip(-1) }
 })
