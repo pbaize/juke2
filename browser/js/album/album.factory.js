@@ -1,5 +1,5 @@
 /* global juke */
-juke.factory('StatsFactory', function ($q) {
+juke.factory('StatsFactory', function ($q, $log) {
   var statsObj = {}
   statsObj.totalTime = function (album) {
     var audio = document.createElement('audio')
@@ -20,25 +20,17 @@ juke.factory('StatsFactory', function ($q) {
   return statsObj
 })
 
+juke.factory('AlbumFactory', function ($http, $log) {
+  function fetchAll () {
+    return $http.get('/api/albums/')
+      .then(res => res.data)
+      .catch($log.error)
+  }
+  function fetchById (id) {
+    return $http.get('/api/albums/' + id)
+      .then(res => res.data)
+      .catch($log.error)
+  }
 
-juke.factory('AlbumFactory', function($http){
-
-    fetchAll = function() {
-      return $http.get('/api/albums/')
-              .then(res => res.data);
-    },
-    fetchById = function(id) {
-      return $http.get('/api/albums/' + id)
-              .then(res => res.data);
-
-    }
-
-
-
-
-  return {
-    fetchAll,
-    fetchById
-  };
-});
-
+  return {fetchAll, fetchById}
+})

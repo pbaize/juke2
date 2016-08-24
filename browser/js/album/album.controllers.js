@@ -1,14 +1,13 @@
 /* global juke */
 'use strict'
 
-juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFactory, AlbumFactory) {
+juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, StatsFactory, AlbumFactory) {
   // load our initial data
   AlbumFactory.fetchAll()
     .then(function (albums) {
       return AlbumFactory.fetchById(albums[7].id)
     })
     .then(function (album) {
-      console.log(album);
       album.imageUrl = '/api/albums/' + album.id + '/image'
       album.songs.forEach(function (song, i) {
         song.audioUrl = '/api/songs/' + song.id + '/audio'
@@ -61,4 +60,15 @@ juke.controller('AlbumCtrl', function ($scope, $http, $rootScope, $log, StatsFac
   }
   function next () { skip(1) }
   function prev () { skip(-1) }
+})
+
+juke.controller('AlbumsCtrl', function ($scope, AlbumFactory, $log) {
+  AlbumFactory.fetchAll()
+    .then(function (albums) {
+      albums.forEach((album) => {
+        album.imageUrl = '/api/albums/' + album.id + '/image'
+      })
+      $scope.albums = albums
+    })
+    .catch($log.error)
 })

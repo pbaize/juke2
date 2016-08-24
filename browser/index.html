@@ -14,20 +14,18 @@
   </head>
   <body ng-app="juke">
     <div id="main" class="container-fluid">
-
       <div class="col-xs-2">
         <sidebar>
-          <img src="juke.svg" class="logo">
-          <section>
-            <h4 class="menu-item active">
-              <a href="#">ALBUMS</a>
-            </h4>
-          </section>
+        <img src="juke.svg" class="logo">
+        <section>
+          <h4 class="menu-item active">
+          <a href="#">ALBUMS</a>
+          </h4>
+        </section>
         </sidebar>
       </div>
-
       <div class="col-xs-10">
-        <div class="album" ng-controller="AlbumCtrl">
+        <div class="album" ng-show="false" ng-controller="AlbumCtrl">
           <p>
             <h3>{{ album.name }} <span style="font-size: 18px">| {{album.totalTime}}</span></h4>
             <img ng-src="{{ album.imageUrl }}" class="img-thumbnail">
@@ -45,7 +43,7 @@
               <tr ng-repeat="song in album.songs" ng-class="{active: song === currentSong}">
                 <td>
                   <button class="btn btn-default btn-xs" ng-click="toggle(song)">
-                    <span class="glyphicon" ng-class="{'glyphicon-pause': playing && song === currentSong, 'glyphicon-play': song !== currentSong || !playing}"></span>
+                  <span class="glyphicon" ng-class="{'glyphicon-pause': playing && song === currentSong, 'glyphicon-play': song !== currentSong || !playing}"></span>
                   </button>
                 </td>
                 <td>{{ song.name }}</td>
@@ -55,19 +53,34 @@
             </tbody>
           </table>
         </div>
+        <div ng-show="true" ng-controller="AlbumsCtrl">
+          <h3>Albums</h3>
+          <div class="row">
+            <div ng-repeat="album in albums" class="col-xs-4">
+              <a class="thumbnail img-responsive" href="#">
+                <img ng-src="{{ album.imageUrl }}" style="max-width: 290px">
+                <div class="caption">
+                  <h5>
+                  <span>{{album.name}}</span>
+                  </h5>
+                  <small> {{album.songs.length}} songs</small>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-
       <footer>
         <div ng-show="currentSong" ng-controller="PlayerCtrl">
           <div class="pull-left">
             <button class="btn btn-default" ng-click="prev()">
-              <span class="glyphicon glyphicon-step-backward"></span>
+            <span class="glyphicon glyphicon-step-backward"></span>
             </button>
             <button class="btn btn-default" ng-click="toggle(currentSong)">
-              <span class="glyphicon" ng-class="{'glyphicon-pause': playing, 'glyphicon-play': !playing}"></span>
+            <span class="glyphicon" ng-class="{'glyphicon-pause': playing, 'glyphicon-play': !playing}"></span>
             </button>
             <button class="btn btn-default" ng-click="next()">
-              <span class="glyphicon glyphicon-step-forward"></span>
+            <span class="glyphicon glyphicon-step-forward"></span>
             </button>
           </div>
           <div class="bar">
@@ -77,7 +90,6 @@
           </div>
         </div>
       </footer>
-
     </div>
   </body>
 </html>
