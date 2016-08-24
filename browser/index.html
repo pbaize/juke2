@@ -71,13 +71,13 @@
         </div>
       </div>
       <footer>
-        <div ng-show="false" ng-controller="PlayerCtrl">
+        <div ng-show="loaded()" ng-controller="PlayerCtrl">
           <div class="pull-left">
             <button class="btn btn-default" ng-click="prev()">
             <span class="glyphicon glyphicon-step-backward"></span>
             </button>
             <button class="btn btn-default" ng-click="toggle(currentSong)">
-            <span class="glyphicon" ng-class="{'glyphicon-pause': playing, 'glyphicon-play': !playing}"></span>
+            <span class="glyphicon" ng-class="{'glyphicon-pause': playing(), 'glyphicon-play': !playing()}"></span>
             </button>
             <button class="btn btn-default" ng-click="next()">
             <span class="glyphicon glyphicon-step-forward"></span>

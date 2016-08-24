@@ -3,7 +3,7 @@
 
 juke.controller('AlbumCtrl', function ($scope, $rootScope, $log, AlbumFactory, PlayerFactory) {
   // load our initial data
-  AlbumFactory.fetchById(58)
+  AlbumFactory.fetchById(57)
     .then(function (album) {
       $scope.album = album
     })

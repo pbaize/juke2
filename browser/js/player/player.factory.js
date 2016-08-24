@@ -13,11 +13,7 @@ juke.factory('PlayerFactory', function ($log, $rootScope) {
     // $scope.$apply(); // triggers $rootScope.$digest, which hits other scopes
     $rootScope.$evalAsync() // likely best, schedules digest if none happening
   })
-  // // audio.addEventListener('timeupdate', function () {
-  // //   progress = audio.currentTime / audio.duration
-  // //   // $scope.$digest(); // re-computes current template only (this scope)
-  // //   $rootScope.$evalAsync() // likely best, schedules digest if none happening
-  // // })
+
 
   function start (song, songlist) {
     if (currentSong) {
@@ -54,7 +50,7 @@ juke.factory('PlayerFactory', function ($log, $rootScope) {
 
   function previous () {
     if (deckInd === 0) deckInd = songDeck.length
-    this.start(songDeck[--deckInd])
+    this.start(songDeck[--deckInd], songDeck)
   }
 
   function pause () {
@@ -68,6 +64,10 @@ juke.factory('PlayerFactory', function ($log, $rootScope) {
       : 0
   }
 
+  function seek (decimal) {
+    audio.currentTime = audio.duration * decimal;
+  }
+
   return {
     start,
     stop,
@@ -78,5 +78,7 @@ juke.factory('PlayerFactory', function ($log, $rootScope) {
     previous,
     audio,
     getProgress,
-  pause}
+    seek,
+    pause
+  }
 })
