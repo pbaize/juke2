@@ -19,3 +19,26 @@ juke.factory('StatsFactory', function ($q) {
   }
   return statsObj
 })
+
+
+juke.factory('AlbumFactory', function($http){
+
+    fetchAll = function() {
+      return $http.get('/api/albums/')
+              .then(res => res.data);
+    },
+    fetchById = function(id) {
+      return $http.get('/api/albums/' + id)
+              .then(res => res.data);
+
+    }
+
+
+
+
+  return {
+    fetchAll,
+    fetchById
+  };
+});
+
